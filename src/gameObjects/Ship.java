@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class Ship extends GameObject implements EntityA {
     int vidas;
     GLAutoDrawable drawable;
-    ArrayList<Bullet> bullets = new ArrayList<>();
     float[] chama = {0.8f, 0.4f, 0.2f};
     boolean chamaVermelha = true;
     boolean movimentando;
@@ -29,7 +28,7 @@ public class Ship extends GameObject implements EntityA {
     }
 
     public void shoot() {
-        this.bullets.add(new Bullet(this.x, this.y, drawable, game));
+        game.controller.addEntity(new Bullet(this.x, this.y, drawable, game));
     }
 
     public void up() {
@@ -155,11 +154,6 @@ public class Ship extends GameObject implements EntityA {
 
         gl.glPopMatrix();
 
-        if (this.bullets.size() > 0) {
-            for (Bullet bullet : this.bullets) {
-                bullet.render();
-            }
-        }
         this.movimentando = false;
     }
 

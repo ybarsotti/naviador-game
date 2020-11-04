@@ -40,7 +40,7 @@ public class Controller {
     }
 
     public void createNormalEnemy() {
-        this.normalEnemy = new NormalEnemy(0, 0, drawable);
+        this.normalEnemy = new NormalEnemy(0, 0, drawable, game);
     }
 
     public void createAmbient() {

@@ -3,6 +3,7 @@ package gameObjects;
 import Entities.EntityB;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
+import game.Game;
 import input.SoundController;
 
 import java.awt.*;
@@ -11,11 +12,12 @@ public class NormalEnemy extends GameObject implements EntityB {
     GLAutoDrawable drawable;
     SoundController soundController;
     boolean colisao;
+    Game game;
 
-    public NormalEnemy(float x, float y, GLAutoDrawable drawable) {
+    public NormalEnemy(float x, float y, GLAutoDrawable drawable, Game game) {
         super(x, y);
         this.drawable = drawable;
-        this.soundController = new SoundController();
+        this.game = game;
         this.colisao = false;
     }
 
@@ -36,21 +38,12 @@ public class NormalEnemy extends GameObject implements EntityB {
             gl.glVertex2f(2, -4);
         gl.glEnd();
 
-        // Hitbox
-        gl.glColor4f(1, 1, 1, 0);
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glVertex2f(0, 0);
-            gl.glVertex2f(-12, 0);
-            gl.glVertex2f(-12, -4);
-            gl.glVertex2f(0, -4);
-        gl.glEnd();
-
         gl.glPopMatrix();
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int) this.x - 12, (int) this.y + 6, 10, 5);
+        return new Rectangle((int) this.x - 34, (int) this.y + 6, 10, 5);
     }
 
     @Override
@@ -63,8 +56,9 @@ public class NormalEnemy extends GameObject implements EntityB {
         return y;
     }
 
-    public void destroyEnemy() {
-        this.soundController.destroyEnemySound();
+    public void destroy() {
+        this.game.controller.removeEntity(this);
+        SoundController.destroyEnemySound();
     }
 
 }

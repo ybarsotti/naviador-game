@@ -4,9 +4,6 @@ import Entities.EntityA;
 import Entities.EntityB;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.util.awt.TextRenderer;
-import gameObjects.NormalEnemy;
-import gameObjects.Ship;
-import input.SoundController;
 
 import java.awt.*;
 import java.util.*;
@@ -18,7 +15,6 @@ public class Game {
 
     boolean jogando;
 
-    ArrayList<NormalEnemy> normalEnemies = new ArrayList<>();
 
     public Game(GLAutoDrawable drawable) {
         this.controller = new Controller(drawable, this);

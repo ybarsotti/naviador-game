@@ -4,13 +4,8 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
-import com.jogamp.opengl.util.awt.TextRenderer;
 import game.Game;
-import gameObjects.NormalEnemy;
-import gameObjects.Ship;
 import input.SoundController;
-
-import java.awt.*;
 
 /**
  * @author Yuri Barsotti

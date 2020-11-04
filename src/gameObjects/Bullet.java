@@ -23,7 +23,7 @@ public class Bullet extends GameObject implements EntityA {
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int) x, (int) y, 5, 1);
+        return new Rectangle((int) x, (int) y, 3, 1);
     }
 
     @Override
@@ -55,6 +55,7 @@ public class Bullet extends GameObject implements EntityA {
 
         if(Physics.collision(this, game.entityBS)) {
             System.out.println("Colisao detectada");
+            this.game.controller.removeEntity(this);
         }
 
     }
