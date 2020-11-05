@@ -2,7 +2,6 @@ package game;
 
 import Entities.EntityA;
 import Entities.EntityB;
-import gameObjects.GameObject;
 
 import java.util.LinkedList;
 

@@ -13,6 +13,10 @@ public class Game {
     public LinkedList<EntityA> entityAS;
     public LinkedList<EntityB> entityBS;
 
+    private int currentLevel = 1;
+
+    private int enemyCount = 150;
+
     boolean jogando;
 
 
@@ -26,6 +30,7 @@ public class Game {
     public void play() {
         this.renderText();
         this.renderObjects();
+        this.controller.createEnemies();
     }
 
     public void renderText() {
@@ -34,8 +39,9 @@ public class Game {
         textRenderer.setColor(Color.WHITE);
         textRenderer.setSmoothing(true);
 
-        textRenderer.draw("Colisão: ", (int) (18), (int) (50));
-        textRenderer.draw("Pontos: " + String.format("%07d", 5), (int) (18), (int) (18));
+        textRenderer.draw("Vidas: " + this.controller.ship.getVidas(), (int) (18), (int) (50));
+        textRenderer.draw("Pontos: " + String.format("%07d", this.controller.ship.getPontos()), (int) (18), (int) (18));
+        textRenderer.draw("Inimigos restantes: " + getEnemyCount(), (int) (150), (int) (18));
         textRenderer.endRendering();
     }
 
@@ -49,6 +55,22 @@ public class Game {
 
     public void stopGame() {
         this.jogando = false;
+    }
+
+    public int getCurrentLevel() {
+        return this.currentLevel;
+    }
+
+    public void setNextLevel() {
+        this.currentLevel++;
+    }
+
+    public int getEnemyCount() {
+        return enemyCount;
+    }
+
+    public void decEnemyCount() {
+        enemyCount--;
     }
 
 }

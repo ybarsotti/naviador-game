@@ -19,19 +19,19 @@ public class KeyBoard implements KeyListener {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                this.cena.game.controller.ship.up();
+                cena.game.controller.ship.up();
                 break;
             case KeyEvent.VK_DOWN:
-                this.cena.game.controller.ship.down();
+                cena.game.controller.ship.down();
                 break;
             case KeyEvent.VK_RIGHT:
-                this.cena.game.controller.ship.right();
+                cena.game.controller.ship.right();
                 break;
             case KeyEvent.VK_LEFT:
-                this.cena.game.controller.ship.left();
+                cena.game.controller.ship.left();
                 break;
             case KeyEvent.VK_SPACE:
-                this.cena.game.controller.ship.shoot();
+                cena.game.controller.ship.shoot();
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);

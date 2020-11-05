@@ -4,18 +4,19 @@ import Entities.EntityA;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import game.Game;
+import game.Physics;
 import input.SoundController;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Ship extends GameObject implements EntityA {
-    int vidas;
+    private int vidas;
+    private int pontos = 0;
     GLAutoDrawable drawable;
     float[] chama = {0.8f, 0.4f, 0.2f};
     boolean chamaVermelha = true;
     boolean movimentando;
-    public boolean colisao;
     private Game game;
 
     public Ship(float x, float y, int vidas, GLAutoDrawable drawable, Game game) {
@@ -24,7 +25,7 @@ public class Ship extends GameObject implements EntityA {
         this.game = game;
         this.vidas = vidas;
         this.movimentando = false;
-        this.colisao = false;
+
     }
 
     public void shoot() {
@@ -39,7 +40,7 @@ public class Ship extends GameObject implements EntityA {
     }
 
     public void down() {
-        if (this.y > -90) {
+        if (this.y > -70) {
             this.y -= 5;
             this.movimentando = true;
         }
@@ -53,7 +54,7 @@ public class Ship extends GameObject implements EntityA {
     }
 
     public void left() {
-        if (this.x > -100) {
+        if (this.x > -170) {
             this.x -= 5;
             this.movimentando = true;
         }
@@ -155,11 +156,15 @@ public class Ship extends GameObject implements EntityA {
         gl.glPopMatrix();
 
         this.movimentando = false;
+
+        if (Physics.collision(this, game.entityBS)) {
+            perderVida();
+        }
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int) x, (int) y, 32, 32);
+        return new Rectangle((int) x - 30, (int) y - 10, 25, 25);
     }
 
     @Override
@@ -170,6 +175,22 @@ public class Ship extends GameObject implements EntityA {
     @Override
     public float getY() {
         return y;
+    }
+
+    public int getVidas() {
+        return vidas;
+    }
+
+    public void perderVida() {
+        this.vidas--;
+    }
+
+    public int getPontos() {
+        return pontos;
+    }
+
+    public void ganharPontos() {
+        this.pontos += 25;
     }
 
 }

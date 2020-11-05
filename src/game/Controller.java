@@ -9,6 +9,7 @@ import gameObjects.Ship;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Controller {
     private LinkedList<EntityA> eA = new LinkedList<EntityA>();
@@ -24,28 +25,43 @@ public class Controller {
     EntityA entityA;
     EntityB entityB;
 
-    Random random = new Random();
-
     public Controller(GLAutoDrawable drawable, Game game){
         this.drawable = drawable;
         this.game = game;
-        createPlayer();
-        createNormalEnemy();
+        this.ship = new Ship(-92, 0, 5, drawable, game);
+
         eA.add(this.ship);
-        eB.add(this.normalEnemy);
     }
 
-    public void createPlayer() {
-        this.ship = new Ship(-92, 0, 3, drawable, game);
-    }
-
-    public void createNormalEnemy() {
-        this.normalEnemy = new NormalEnemy(0, 0, drawable, game);
-    }
 
     public void createAmbient() {
 
     }
+
+    public void createEnemies() {
+        int spawn = ThreadLocalRandom.current().nextInt(0, 80);
+        int position = ThreadLocalRandom.current().nextInt(-70, 95);
+
+        if (spawn > 77 && game.getEnemyCount() > 0) {
+            NormalEnemy enemy = new NormalEnemy(200, position, drawable, game);
+
+            if (game.getEnemyCount() < 125)
+                enemy.addVelocity(0.15f);
+
+            if (game.getEnemyCount() < 100)
+                enemy.addVelocity(0.20f);
+
+            if (game.getEnemyCount() < 50)
+                enemy.addVelocity(0.22f);
+
+            if (game.getEnemyCount() < 25)
+                enemy.addVelocity(0.30f);
+
+            eB.add(enemy);
+        }
+
+    }
+
 
     public void render() {
         // Ent A

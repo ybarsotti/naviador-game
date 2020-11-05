@@ -10,15 +10,13 @@ import java.awt.*;
 
 public class NormalEnemy extends GameObject implements EntityB {
     GLAutoDrawable drawable;
-    SoundController soundController;
-    boolean colisao;
     Game game;
+    float velocidade = 0.5f;
 
     public NormalEnemy(float x, float y, GLAutoDrawable drawable, Game game) {
         super(x, y);
         this.drawable = drawable;
         this.game = game;
-        this.colisao = false;
     }
 
     public void render() {
@@ -39,11 +37,17 @@ public class NormalEnemy extends GameObject implements EntityB {
         gl.glEnd();
 
         gl.glPopMatrix();
+
+        moveForward();
+    }
+
+    private void moveForward() {
+        this.x -= velocidade;
     }
 
     @Override
     public Rectangle getBounds() {
-        return new Rectangle((int) this.x - 34, (int) this.y + 6, 10, 5);
+        return new Rectangle((int) this.x - 32, (int) this.y + 6, 10, 5);
     }
 
     @Override
@@ -59,6 +63,10 @@ public class NormalEnemy extends GameObject implements EntityB {
     public void destroy() {
         this.game.controller.removeEntity(this);
         SoundController.destroyEnemySound();
+    }
+
+    public void addVelocity(float velocidade) {
+        this.velocidade += velocidade;
     }
 
 }

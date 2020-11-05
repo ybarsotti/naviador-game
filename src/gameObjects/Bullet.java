@@ -54,8 +54,9 @@ public class Bullet extends GameObject implements EntityA {
         this.x += 4;
 
         if(Physics.collision(this, game.entityBS)) {
-            System.out.println("Colisao detectada");
             this.game.controller.removeEntity(this);
+            this.game.decEnemyCount();
+            this.game.controller.ship.ganharPontos();
         }
 
     }
