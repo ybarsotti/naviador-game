@@ -5,10 +5,8 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import game.Game;
 import game.Physics;
-import input.SoundController;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Ship extends GameObject implements EntityA {
     private int vidas;
@@ -17,6 +15,7 @@ public class Ship extends GameObject implements EntityA {
     float[] chama = {0.8f, 0.4f, 0.2f};
     boolean chamaVermelha = true;
     boolean movimentando;
+    public boolean vivo = true;
     private Game game;
 
     public Ship(float x, float y, int vidas, GLAutoDrawable drawable, Game game) {
@@ -29,32 +28,33 @@ public class Ship extends GameObject implements EntityA {
     }
 
     public void shoot() {
-        game.controller.addEntity(new Bullet(this.x, this.y, drawable, game));
+        if (game.jogando)
+            game.controller.addEntity(new Bullet(this.x, this.y, drawable, game));
     }
 
     public void up() {
-        if (this.y < 100) {
+        if (this.y < 100 && game.jogando && vivo) {
             this.y += 5;
             this.movimentando = true;
         }
     }
 
     public void down() {
-        if (this.y > -70) {
+        if (this.y > -70 && game.jogando && vivo) {
             this.y -= 5;
             this.movimentando = true;
         }
     }
 
     public void right() {
-        if (this.x < 100) {
+        if (this.x < 100 && game.jogando && vivo) {
             this.x += 5;
             this.movimentando = true;
         }
     }
 
     public void left() {
-        if (this.x > -170) {
+        if (this.x > -170 && game.jogando && vivo) {
             this.x -= 5;
             this.movimentando = true;
         }
@@ -193,4 +193,11 @@ public class Ship extends GameObject implements EntityA {
         this.pontos += 25;
     }
 
+    public void setVidas(int vidas) {
+        this.vidas = vidas;
+    }
+
+    public void destroy() {
+        this.game.controller.removeEntity(this);
+    }
 }

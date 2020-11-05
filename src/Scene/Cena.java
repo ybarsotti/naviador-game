@@ -26,7 +26,6 @@ public class Cena implements GLEventListener {
         xMax = yMax = zMax = 100;
 
         this.game = new Game(drawable);
-        SoundController.themeSong();
     }
 
     @Override

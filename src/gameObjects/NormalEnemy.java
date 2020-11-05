@@ -38,7 +38,8 @@ public class NormalEnemy extends GameObject implements EntityB {
 
         gl.glPopMatrix();
 
-        moveForward();
+        if (game.jogando)
+            moveForward();
     }
 
     private void moveForward() {
