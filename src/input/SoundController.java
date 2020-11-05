@@ -10,7 +10,8 @@ public class SoundController {
     Clip clip;
     public SoundController() {}
 
-    private static void play(String path, Boolean loop) {
+    private static void play(String path, Boolean loop)
+    {
         File musicPath = new File(path);
         try {
             if (musicPath.exists()) {
