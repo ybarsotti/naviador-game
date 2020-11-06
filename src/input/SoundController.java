@@ -55,6 +55,25 @@ public class SoundController {
 
     }
 
+    public void playIntro() {
+        File musicPath = new File("shared/assets/sounds/gameIntro.wav");
+        try {
+            if (musicPath.exists()) {
+                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicPath);
+                this.clip = AudioSystem.getClip();
+                this.clip.open(audioInputStream);
+                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+                this.clip.start();
+            } else {
+                System.out.println("NAO FOI POSSIVEL ENCONTRAR O SOM");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void stopThemeSong() {
         this.clip.close();
     }
@@ -70,4 +89,10 @@ public class SoundController {
     public static void stageClear() {
         play("shared/assets/sounds/stageClear.wav", false);
     }
+
+    public static void endGame() {
+        play("shared/assets/sounds/endGame.wav", false);
+    }
+
+
 }

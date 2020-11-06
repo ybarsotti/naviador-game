@@ -3,7 +3,6 @@ package input;
 import Scene.Cena;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
-import game.Game;
 
 /**
  * @author Yuri Barsotti
@@ -35,6 +34,13 @@ public class KeyBoard implements KeyListener {
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
+                break;
+            case KeyEvent.VK_ENTER:
+                if (cena.tela == 1) {
+                    cena.soundController.stopThemeSong();
+                    cena.game.soundController.playThemeSong();
+                    cena.tela = 2;
+                }
                 break;
         }
 

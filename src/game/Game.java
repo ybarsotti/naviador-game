@@ -8,28 +8,26 @@ import input.SoundController;
 
 import java.awt.*;
 import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class Game {
     public Controller controller;
     public LinkedList<EntityA> entityAS;
     public LinkedList<EntityB> entityBS;
-    SoundController soundController;
+    public SoundController soundController;
     private Timer timer = new Timer();
     private int currentLevel = 1;
-    private int enemyCount = 10;
+    private int enemyCount = 150;
     private final int DEFAULT_ENEMY_COUNT = 150;
-
+    private boolean delayEndGame = false;
     public boolean venceu = false;
     public boolean jogando = true;
     public boolean delay = false;
+    private boolean credits = false;
+    private float creditsY = -10;
 
 
     public Game(GLAutoDrawable drawable) {
         this.soundController = new SoundController();
-        this.soundController.playThemeSong();
         this.controller = new Controller(drawable, this);
 
         entityAS = controller.getEntityA();
@@ -89,8 +87,17 @@ public class Game {
         }
 
         if (venceu) {
-            renderCenterScreen("Fase concluída !");
-            nextStage();
+            if (currentLevel == 1) {
+                renderCenterScreen("Fase concluída !");
+                nextStage();
+            }
+            else if (!credits) {
+                renderCenterScreen("Salvou a todos!");
+                endGame();
+            } else {
+                credits();
+            }
+
         }
 
         // Se jogo estiver parado
@@ -114,6 +121,45 @@ public class Game {
             delay = true;
         }
 
+    }
+
+    private synchronized void endGame() {
+        if (!delayEndGame) {
+            this.timer.cancel();
+            this.timer = new Timer();
+            TimerTask action = new TimerTask() {
+                @Override
+                public void run() {
+                    SoundController.endGame();
+                    credits = true;
+                }
+            };
+
+            this.timer.schedule(action, 7 * 1000);
+            delayEndGame = true;
+        }
+
+    }
+
+    private void credits() {
+        TextRenderer textRenderer = new TextRenderer(new Font("Verdana", Font.BOLD, 38));
+
+        textRenderer.beginRendering(900, 1000);
+        textRenderer.setColor(Color.WHITE);
+        textRenderer.setSmoothing(true);
+
+        textRenderer.draw("Game Creator: Yuri Barsotti", (int) (150), (int) (creditsY));
+        textRenderer.draw("Game Programmer: Yuri Barsotti", (int) (150), (int) (creditsY - 80));
+        textRenderer.draw("Game Design: Yuri Barsotti", (int) (150), (int) (creditsY - 80 * 2));
+        textRenderer.draw("Game Director: Yuri Barsotti", (int) (150), (int) (creditsY - 80 * 3));
+        textRenderer.draw("Game Support: Dhiego Rodrigues", (int) (150), (int) (creditsY - 80 * 4));
+        textRenderer.draw("Game Tester: Guilherme Guerra", (int) (150), (int) (creditsY - 80 * 5));
+        textRenderer.draw("Agradecimentos: Marcelo Lopes", (int) (150), (int) (creditsY - 80 * 7));
+        textRenderer.draw("Obrigado por jogar !", (int) (150), (int) (creditsY - 80 * 10));
+        textRenderer.draw(":)", (int) (150), (int) (creditsY - 80 * 11));
+        textRenderer.endRendering();
+
+        creditsY += 1;
     }
 
     public void levelCleared() {
