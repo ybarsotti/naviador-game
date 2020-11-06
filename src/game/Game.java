@@ -8,18 +8,23 @@ import input.SoundController;
 
 import java.awt.*;
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class Game {
     public Controller controller;
     public LinkedList<EntityA> entityAS;
     public LinkedList<EntityB> entityBS;
     SoundController soundController;
+    private Timer timer = new Timer();
     private int currentLevel = 1;
-
-    private int enemyCount = 150;
+    private int enemyCount = 10;
+    private final int DEFAULT_ENEMY_COUNT = 150;
 
     public boolean venceu = false;
     public boolean jogando = true;
+    public boolean delay = false;
 
 
     public Game(GLAutoDrawable drawable) {
@@ -75,22 +80,12 @@ public class Game {
             controller.ship.destroy();
             SoundController.playerDeath();
             stopGame();
-            controller.ship.vivo = false;
         }
 
         // Verifica a quantidade de inimigos
-        switch (currentLevel){
-            case 1:
-                if (noEnemies() && !venceu) {
-                    venceu = true;
-                    enemyCount = 1;
-                    soundController.stopThemeSong();
-                    SoundController.stageClear();
-                    stopGame();
-                }
-                break;
-            case 2:
-                break;
+
+        if (noEnemies() && !venceu) {
+            levelCleared();
         }
 
         if (venceu) {
@@ -104,13 +99,39 @@ public class Game {
         }
     }
 
-    private void nextStage() {
-//        try {
-//            Thread.sleep(7 * 1000);
-//        } catch (InterruptedException ex) {
-//            ex.printStackTrace();
-//        }
-        System.out.println("AGORA FOI");
+    private synchronized void nextStage() {
+        if (!delay) {
+            this.timer.cancel();
+            this.timer = new Timer();
+            TimerTask action = new TimerTask() {
+                @Override
+                public void run() {
+                    startNextLevel();
+                }
+            };
+
+            this.timer.schedule(action, 7 * 1000);
+            delay = true;
+        }
+
+    }
+
+    public void levelCleared() {
+        venceu = true;
+        enemyCount = 1;
+        soundController.stopThemeSong();
+        SoundController.stageClear();
+        stopGame();
+    }
+
+    public void startNextLevel() {
+        soundController.playThemeSong();
+        venceu = false;
+        currentLevel++;
+        controller.ship.reset();
+        controller.removeEnemies();
+        enemyCount = DEFAULT_ENEMY_COUNT;
+        startGame();
     }
 
     public void startGame() {

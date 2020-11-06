@@ -199,5 +199,11 @@ public class Ship extends GameObject implements EntityA {
 
     public void destroy() {
         this.game.controller.removeEntity(this);
+        vivo = false;
+    }
+
+    public void reset() {
+        x = -92;
+        y = 0;
     }
 }

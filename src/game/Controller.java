@@ -4,6 +4,7 @@ import Entities.EntityA;
 import Entities.EntityB;
 import Scene.Ambient;
 import com.jogamp.opengl.GLAutoDrawable;
+import gameObjects.Asteroid;
 import gameObjects.NormalEnemy;
 import gameObjects.Ship;
 
@@ -17,8 +18,6 @@ public class Controller {
 
     public Game game;
     public Ship ship;
-    public NormalEnemy normalEnemy;
-    public Ambient ambient;
 
     GLAutoDrawable drawable;
 
@@ -40,9 +39,12 @@ public class Controller {
 
     public void createEnemies() {
         int spawn = ThreadLocalRandom.current().nextInt(0, 80);
+
+        boolean willSpawn = spawn > 77;
+
         int position = ThreadLocalRandom.current().nextInt(-70, 95);
 
-        if (spawn > 77 && game.getEnemyCount() > 0) {
+        if (willSpawn && game.getEnemyCount() > 0) {
             NormalEnemy enemy = new NormalEnemy(200, position, drawable, game);
 
             if (game.getEnemyCount() < 125)
@@ -58,6 +60,24 @@ public class Controller {
                 enemy.addVelocity(0.30f);
 
             eB.add(enemy);
+        }
+
+        if (game.getCurrentLevel() > 1) {
+            int spawnAsteroid = ThreadLocalRandom.current().nextInt(0, 80);
+            boolean willSpawnAsteroid = spawnAsteroid > 78;
+            float positionAsteroidY;
+
+            float positionAsteroidX = ThreadLocalRandom.current().nextInt(0, 200);
+            if (positionAsteroidX < 120 )
+                positionAsteroidY = ThreadLocalRandom.current().nextInt(95, 120);
+            else
+                positionAsteroidY = ThreadLocalRandom.current().nextInt(-90, 120);
+
+            if (willSpawnAsteroid) {
+                Asteroid asteroid = new Asteroid(positionAsteroidX, positionAsteroidY, drawable, game);
+
+                eB.add(asteroid);
+            }
         }
 
     }
@@ -99,5 +119,9 @@ public class Controller {
 
     public LinkedList<EntityB> getEntityB() {
         return eB;
+    }
+
+    public void removeEnemies() {
+        eB.clear();
     }
 }
