@@ -16,8 +16,8 @@ public class Game {
     public SoundController soundController;
     private Timer timer = new Timer();
     private int currentLevel = 1;
-    private int enemyCount = 2;
-    private final int DEFAULT_ENEMY_COUNT = 2;
+    private int enemyCount = 150;
+    private final int DEFAULT_ENEMY_COUNT = 150;
     private boolean delayEndGame = false;
     public boolean venceu = false;
     public boolean jogando = true;
