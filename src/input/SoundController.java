@@ -8,24 +8,20 @@ import javax.sound.sampled.Clip;
 
 public class SoundController {
     Clip clip;
-    public SoundController() {}
 
-    private static void play(String path, Boolean loop)
-    {
-        File musicPath = new File(path);
+    public SoundController() {
+    }
+
+    private static void play(String path, Boolean loop) {
         try {
-            if (musicPath.exists()) {
-                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInput);
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(SoundController.class.getResource(path));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInput);
 
-                if (loop)
-                    clip.loop(Clip.LOOP_CONTINUOUSLY);
+            if (loop)
+                clip.loop(Clip.LOOP_CONTINUOUSLY);
 
-                clip.start();
-            } else {
-                System.out.println("NAO FOI POSSIVEL ENCONTRAR O SOM");
-            }
+            clip.start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,21 +29,16 @@ public class SoundController {
     }
 
     public static void shootSound() {
-        play("shared/assets/sounds/shoot.wav", false);
+        play("sounds/shoot.wav", false);
     }
 
     public void playThemeSong() {
-        File musicPath = new File("shared/assets/sounds/themeMusic.wav");
         try {
-            if (musicPath.exists()) {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicPath);
-                this.clip = AudioSystem.getClip();
-                this.clip.open(audioInputStream);
-                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
-                this.clip.start();
-            } else {
-                System.out.println("NAO FOI POSSIVEL ENCONTRAR O SOM");
-            }
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("sounds/themeMusic.wav"));
+            this.clip = AudioSystem.getClip();
+            this.clip.open(audioInputStream);
+            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.clip.start();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,18 +47,12 @@ public class SoundController {
     }
 
     public void playIntro() {
-        File musicPath = new File("shared/assets/sounds/gameIntro.wav");
         try {
-            if (musicPath.exists()) {
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(musicPath);
-                this.clip = AudioSystem.getClip();
-                this.clip.open(audioInputStream);
-                this.clip.loop(Clip.LOOP_CONTINUOUSLY);
-                this.clip.start();
-            } else {
-                System.out.println("NAO FOI POSSIVEL ENCONTRAR O SOM");
-            }
-
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getResource("sounds/gameIntro.wav"));
+            this.clip = AudioSystem.getClip();
+            this.clip.open(audioInputStream);
+            this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+            this.clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,19 +64,23 @@ public class SoundController {
     }
 
     public static void destroyEnemySound() {
-        play("shared/assets/sounds/enemyKill.wav", false);
+        play("sounds/enemyKill.wav", false);
     }
 
-    public static void playerDeath() { play("shared/assets/sounds/playerDeath.wav", false); }
+    public static void playerDeath() {
+        play("sounds/playerDeath.wav", false);
+    }
 
-    public static void loseTheme() { play("shared/assets/sounds/loseSong.wav", false); }
+    public static void loseTheme() {
+        play("sounds/loseSong.wav", false);
+    }
 
     public static void stageClear() {
-        play("shared/assets/sounds/stageClear.wav", false);
+        play("sounds/stageClear.wav", false);
     }
 
     public static void endGame() {
-        play("shared/assets/sounds/endGame.wav", false);
+        play("sounds/endGame.wav", false);
     }
 
 
